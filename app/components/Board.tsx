@@ -13,6 +13,8 @@ const diagonalWin = (board: Board, sym: PlayerSymbol) => {
 };
 
 const colWin = (board: Board, sym: PlayerSymbol) => {
+  //Doing this first
+  //hahaha
   // Your code goes here
   // const colWin = board.map((row, idx) =>
   //   row.map((col, cIdx) => console.log(idx, cIdx)),
