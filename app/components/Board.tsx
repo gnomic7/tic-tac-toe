@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { initBoardValue } from '~/utils/init';
 
 type Board = typeof initBoardValue;
