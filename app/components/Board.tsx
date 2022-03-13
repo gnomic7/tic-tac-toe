@@ -4,18 +4,21 @@ import { initBoardValue } from '~/utils/init';
 type Board = typeof initBoardValue;
 
 type PlayerSymbol = 'O' | 'X';
-
+// Handle this in a better way
 const diagonalWin = (board: Board, sym: PlayerSymbol) => {
   let win = true;
   const lastIdx = board[0].length - 1;
   for (let i = 0; i <= lastIdx; i++) {
-    // There is still a bug here
-    win =
-      (win && board[i][i] === sym) || (win && board[lastIdx - i][i] === sym);
+    win = win && board[i][i] === sym;
+  }
+  if (win) return true;
+  win = true;
+  for (let i = 0; i <= lastIdx; i++) {
+    win = win && board[lastIdx - i][i] === sym;
   }
   return win;
 };
-
+//Handle this differently
 const colWin = (board: Board, sym: PlayerSymbol) => {
   for (let i = 0; i < board[0].length; i++) {
     let win = true;
@@ -52,23 +55,18 @@ const Board = ({
 
   const handleClick = ({ target }: any) => {
     const [x, y] = target?.id.split(',') || [];
+    if (board[+x][+y] !== '-') return;
     board[+x][+y] = player;
     setBoard(board);
     setPlayer(player === 'O' ? 'X' : 'O');
     if (isWinner(board, player)) {
-      console.log(board, player);
-      console.log(
-        rowWin(board, player),
-        colWin(board, player),
-        diagonalWin(board, player),
-      );
       alert(`Player with ${player} wins!`);
-      // window.location.reload();
+      return setTimeout(() => window.location.reload(), 0);
     }
 
     if (gameOver(board)) {
       alert('The game is a tie!');
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 0);
     }
   };
   return (
