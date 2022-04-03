@@ -4,6 +4,7 @@ import { initBoardValue } from '~/utils/init';
 type Board = typeof initBoardValue;
 
 type PlayerSymbol = 'O' | 'X';
+
 // Handle this in a better way
 const diagonalWin = (board: Board, sym: PlayerSymbol) => {
   let win = true;
@@ -52,6 +53,8 @@ const Board = ({
 }) => {
   const [board, setBoard] = React.useState<Board>(initialBoard);
   const [player, setPlayer] = React.useState<PlayerSymbol>(initialPlayer);
+  // Set computer is another player
+  const computerClick = () => {};
 
   const handleClick = ({ target }: any) => {
     const [x, y] = target?.id.split(',') || [];
@@ -66,8 +69,12 @@ const Board = ({
 
     if (gameOver(board)) {
       alert('The game is a tie!');
-      setTimeout(() => window.location.reload(), 0);
+      setBoard(initBoardValue);
     }
+  };
+  const handleReset = () => {
+    setPlayer(initialPlayer);
+    setBoard(JSON.parse(JSON.stringify(initBoardValue)));
   };
   return (
     <>
@@ -86,6 +93,12 @@ const Board = ({
             ))}
           </div>
         ))}
+        <button
+          className="py-12 px-12 inline border-2 hover:inline-offset-2 bg-red-500 font-bold hover:bg-red-400 active:bg-red-600 focus:outline-none focus:ring focus:ring-pink-300"
+          onClick={handleReset}
+        >
+          Reset
+        </button>
       </div>
     </>
   );
